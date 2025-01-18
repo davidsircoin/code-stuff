@@ -1,0 +1,7 @@
+A,B,red,S
+B,C,red,S
+C,D,blue,N
+D,E,blue,N
+D,F,blue,S
+E,E,green,S
+F,F,green,N

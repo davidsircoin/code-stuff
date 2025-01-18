@@ -1,0 +1,224 @@
+\documentclass{article}
+
+\usepackage[a4paper, total={6in, 8in}]{geometry} % Page margins
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, mathtools, amsfonts, amsthm}
+\usepackage{wasysym} % Smiley QED
+\usepackage{eulervm} % Font
+\usepackage{fancyhdr} % Custom headers and footers
+\fancyhead[C]{\thepage} % Page numbering for center header
+\usepackage{mdframed}
+\usepackage{xcolor}
+% list environments               
+\usepackage{enumerate}            
+\usepackage[shortlabels]{enumitem}      
+
+% Code block environment
+\usepackage{listings}            
+\lstset{basicstyle = \ttfamily, mathescape}
+
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+
+\title{Datastructures and Algorithms: Exercise 2}
+\author{David Sermoneta}
+
+
+\begin{document}
+\maketitle
+\section*{Exercise 1:}
+\begin{lstlisting}
+    list = [0]*($\log_{2}(N)$ + 1)
+    counter = 0
+def convert2binary(N,counter,list):
+    1 if N // 2 == 0:
+    2   list[counter] = N % 2
+    3   return list
+    4 else:
+    5   list[counter] = N % 2
+    6   counter += 1
+    7   N = N // 2
+    8   return convert2binary(N, counter, list)
+\end{lstlisting}
+A bit of explaining: the length of our list needs to be $\log_2(N)+1$ long. We get there
+by examining that if the binary representation of $N$ is  
+\[N = 2^{k} + a_1 2^{k-1} + \ldots + a_{k-1}2^{1} + a_{k}, \text{ where } a_{i}	= 0 \text{ 
+ or }1,\] then we can claim that all the terms after $2^{k}$ sum up to less than $2^{k}$ by using
+ geometric sums to bound our expression: 
+ \begin{align*}
+  &N = 2^{k} + m  \leq  2^{k } + \sum\limits_{i=0}^{k-1} 2^{i} = 2^{k} + 2^{k}  - 1  \\
+     \implies & m \leq  2^{k} - 1 \leq  2^{k}.
+ \end{align*} That is, $N \leq  2^{k+1}$, which finally gives us that \[
+ \log_{2}(N) \leq k+1,
+ \] which is the length size that our array will need to store each instance of $a_{i}2^{k-i}$. \\
+ \noindent Now what remains is the explanation of the actual algorithm. This is just straight 
+ forward recursion blended with some euclidean algorithm. The base case covers the case when 
+the euclidean algorithm has terminated (that is, when \texttt{N // 2 = 0} and the \texttt{else:}
+part of the code adds $N \text{ mod } 2$ (which obviously is either $1$ or $0$), 
+and then divides $N$ by $2$ to run the function again, until we get to the base case in 
+which case we are done. The counter is just there to make sure we are accessing the right
+part of memory.
+
+
+\section*{Exercise 2:}
+We will use the standard rules $\log(a\cdot b) = \log(a) + \log(b)$, $\log(n^{b})=
+b\log(n)$ and $\log_{b}(n) = \frac{\log_{c}(n)}{\log_{c}(b)}$.
+\begin{proof}[Proof of (a.)]
+We note that  \[
+\log_{b}(n!) \leq  \log_{b}(n^{n}) = n\log_{b}(n) = O(n\log_{b}(n)) \text{ for all } n\geq 0,
+\] and so we are done.
+\end{proof}
+
+\begin{proof}[Proof of (b.)]
+It suffices to show that $a^{\log_{b}(n)} = n^{\log_{b}(a)}$. We have that \[
+LS = a^{\log_{b}(n)}= a^{ \frac{\log_{a}(n)}{\log_{a}(b)}} = n^{\frac{1}{\log_{a}(b)}}
+\]  since $\frac{1}{\log_{a}(b)} = \frac{1}{ \frac{\log_{b}(b)}{\log_{b}(a)}}= \log_{b}(a)$, we
+have that \[
+LS = n^{\log_{b}(a)} = RS.
+\] 
+\end{proof}
+
+\begin{proof}[Proof of (c.)]
+    Suppose $4^{n} \in O(2^{n})$, then for constants $n_0,c$, we'd have that 
+\begin{align*}
+    & 4^{n} \leq  c 2^{n} \text{ for all } n\geq  n_0 \\
+    \iff & 2^{n}2^{n} \leq  c 2 ^{n}  \\
+    \iff &  2^{n} \leq  c,
+\end{align*} which is clearly a contradiction, since $2^{n}$ is unbounded above. Therefore, we have
+disproven that $4^{n} \in O(2^{n})$, and we are done.
+\end{proof}
+
+\section*{Exercise 3:}
+\begin{proof}[Solution to 3:]
+    The arrangement looks like \[
+    f_5,f_6,f_7,f_1,f_4,f_2,f_3
+    \] Further, the complexity class of each function is
+ \begin{align*}
+     f_1 \in & O(n^{\frac{3}{2}}), \\
+     f_2 \in & O(n^2), \\
+     f_3 \in & O(2^{\frac{n}{4}}), \\ 
+     f_4 \in & O(n^{3}), \\
+     f_5 \in & O(1), \\
+     f_6 \in & O(n^{\frac{1}{3}}, \\
+     f_7 \in & O(n\log(n))
+ \end{align*}
+\end{proof}
+
+\section*{Exercise 4:}
+\begin{proof}[Proof of (a.)]
+Since $T(n)$ is of the form $aT \left( \frac{n}{b} \right) + \Theta(n^{d})$, where $a = 27$, 
+$b=3$ and $d= 2$. Since $27 \geq  3^{2}$, we get via the Master theorem that \[
+T(n) = \Theta(n^{\log_{3}(27)} = \Theta(n^{3}),
+\]  and we are done.
+\end{proof}
+
+\begin{proof}[Proof of (b.)]
+ Same procedure, set $a = 32$, $b= 2$ and $d= 5$, and we get that \[
+ T(n) = aT\left( \frac{n}{b} \right) + \Theta(n^{d}).
+ \]   Since $32 = 2^{5},$ Master theorem allows us to conclude that \[
+ T(n) = \Theta(n^{5}\log_{2}(n))
+ \] 
+\end{proof}
+
+\begin{proof}[Proof of (c.)]
+   We prove by induction that $T(n) = n!\Theta(1)$. Base case is true, since $T(1) = 
+   \Theta(1) = 1!\Theta(1)$.
+   Now suppose it were true for some integer $k \geq 2$, then  \[
+   T(k+1) =(k+1)T(k) = k+1\cdot k!\Theta(1) \text{ by our induction hypothesis},
+   \] and so $T(k+1) = (k+1)! \Theta(1)$, and we are done, the induction step is proven and we 
+   have that $T(n) = \Theta(n!)$.
+\end{proof}
+\newpage
+\section*{Exercise 5:}
+\begin{proof}[Proof of (a)]
+For the program to terminate, we need that either $Q$ or $S$ become empty. 
+If $S$ is empty at the time in which the program terminates,
+then that means that each element in $S$ can also be found in $Q$, since before
+removing an element of $S$ in a given iteration of the \texttt{WHILE} loop, 
+we need to check that the same element is in $Q$. And so, in the case that $S$ is empty at
+the time the program ends, necessarily $S \subseteq Q$. \bigskip \newline
+If $Q$ is empty when the program terminates, then that means that the queue is emptied after a 
+finite amount of iterations of the \texttt{WHILE} loop. If originally, $\left|Q\right|= n$,
+then that implies that out of all the iterations of the \texttt{WHILE} loop, 
+$n$ times of those iterations the \texttt{IF} check will be satisfied, that is, the  $n$
+elements of $Q$ will also be found in $S$. Further, since  $S$ remains unchanged, after every
+iteration, this gives us that the elements of $Q$ are found in $S$, as the $n$
+top-most elements, in some random order. That is, $S$'s final $n$ elements consistute a permutation
+of $Q$. So if $Q = [q_1,q_2,q_3 ,\ldots, q_{n}]$, then  \[
+S = [s_1,s_2, \ldots, s_{m}, q_1' , q_2', \ldots, q_{n}'], \text{ where } q_{i}' \in Q.
+\] To prove that these conditions are sufficient by themselves, we consider the two cases by 
+themselves:
+Suppose that $S \subseteq Q$, at time $t=0$. Since we are never adding any new elements to $S$ or
+$Q$, at any given time $t= t_i$, $S \subseteq Q$ and $\left|S\right| = s_{i} \leq r_{i} = 
+\left|Q\right|$. Then we can claim that after at most $r_i$ iterations of the \texttt{WHILE}
+loop, a match between $S$ and $Q$ must be found, since after $r_i$ iterations $Q$ at time $t_i$ 
+and $Q$ at time $t_i + r_i$ will be the same, meaning no elements of $Q$ have been found in $S$ 
+contradicting our assumption. Therefore, in the case that $S \subseteq Q$, $S$ will be emptied of
+one element after at most $\left|Q\right|$ iterations, leaving us with $S$ being empty after at 
+most 
+\begin{equation}
+\sum\limits_{k= 0}^{\left|S\right| - 1} \left|Q \right| - k \text{ iterations.}
+\end{equation}
+And that at a given iteration of the \texttt{WHILE} 
+loop at time $t =t_0$,
+
+For the other case, suppose $Q \subset  S$, as well as them being at the top of $S$ as mentioned 
+above. Then each iteration of the \texttt{WHILE} loop will leave the top of $S$ unchanged, and
+either change the position of the front of $Q$, or find a match, and thus decrease the queue by 
+one element. Given the assumption, and with the same reasoning as before, $Q$ will eventually
+be emptied, since if we don't find a match between the front of $Q$ and top of $S$ in  
+$\left|Q\right|$ iterations, then we've gone through all elements of $Q$ without finding a match,
+contradicting our assumptioin. 
+\end{proof}
+\begin{proof}[Solution of (b.i)]
+    If $S=$\texttt{[Theo]} then we'll only need one iteration of the \texttt{WHILE} loop, since
+    $S$ will be emptied after the first. 
+\end{proof}
+\begin{proof}[Solution of (b.ii)]
+    If $S=$\texttt{[Theo, Max, Paula, Annemarie, Otto]}, it will require the most amount of 
+    iterations, in fact, it will require $15$ iterations, since before removing each element from
+    $Q$, we need to run the while loop \texttt{length.}$(Q)$ times (the length of $Q$ before the
+    removal of the element). 
+\end{proof}
+\begin{proof}[Solution of c]
+Suppose  $S \subseteq Q$, then as we have shown, the program terminates when $S$ ends up empty, 
+which will happen when the  \texttt{IF}  statement runs $\left|S\right|$ times. To make this
+the worst case scenario, we want the \texttt{WHILE} loop to iterate as many times as possible 
+before each eventual removal. As we have shown earlier, the maximal amount of times we can iterate
+the loop before eventually removing an element is $\left|Q\right| - k$ where $k$ is the amount 
+of elements we have removed from $S$ so far. So before removing anything, it's just  $\left|Q
+\right|$, then $\left|Q\right| - 1$ and so on. Giving us the sum \[
+\sum\limits_{k=0}^{\left|S\right|- 1} \left|Q\right| - k = \sum\limits_{k=1}^{\left|S\right|} 
+\left|Q\right| - k = \left|S\right|\left|Q\right| - \frac{\left|S\right|}{2}
+(\left|S\right| + 1).
+\] Since $\left|S\right|, \left|Q\right| \in O(n)$, and using product and sum rules for big-$O$, 
+we get that this is all \[
+\frac{1}{2}(O(n^2) - O(n)) = O(n^2).
+\] In the case that $Q \subseteq S$, and the additional condition on $S$, we get the same sum, but
+over $\left|Q\right|$ instead, that is, still $O(n^2)$. 
+\end{proof}
+
+\section*{Exercise 6:}
+First we note that if we have $k$ people, $2^{k}$ different subsets of people can be created, 
+and we can reason that each subset can represent a room being visited by the people that are in the
+subset, giving us that we need at most $\left\lfloor \log_{2}(n) \right\rfloor + 1$ people
+to be able to identify each room uniquely, in the following way. 
+For a given subset of $G= \{p_0,p_1,\ldots,p_{k}\}$, the room that subset visits can be expressed 
+in terms of the binary reresentation of the room number, ranging from  $1$ to $n$. That is, if
+$R_{i}$ is the room with index $i$, where  $1\leq i \leq n$. Then we know that $i$ can be
+uniquely represented in binary using an ordered list of length $k+1$ so that \[
+    [i]_{2} = (a_0, a_1,\ldots, a_{k+1}), \text{ where } a_{j} \in \{0,1\} .
+\] From here we can say that person  $P_{h}$ is assigned to room $R_{i}$, if $a_{h} = 1$ in the 
+binary representation, and so each subset of people is assigned to a unique room, and we are done.
+\end{document}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Guess the NUMBER</title>
+    <script>
+        n = 63;
+        function check() {
+            var x = document.getElementById("guess").value;
+            var output = document.getElementById("output")
+            if (x < 1 || x > 99) {
+                document.getElementById("output").innerHTML = "You must guess a number between 1 and 99!";
+            }
+            else if (x < n) {
+                document.getElementById("output").innerHTML = "Too low!";
+            }
+            else if (x > n) {
+                document.getElementById("output").innerHTML = "Too high!";
+            }
+            else if (x == n) {
+                document.getElementById("output").innerHTML = "Correct!";
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    Enter a number between 1 and 99: <input type="submit" id="guess" value="type here">
+    <button onclick="check()">Submit</button>
+    <p id="output"></p>
+</body>
+
+</html>

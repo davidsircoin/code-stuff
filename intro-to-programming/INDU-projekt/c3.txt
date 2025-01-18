@@ -1,0 +1,14 @@
+Y,X,green,N
+B,C,blue,S
+B,A,blue,N
+C,B,blue,N
+X,Y,green,S
+Y,C,green,S
+C,Z,green,S
+D,C,blue,N
+C,Y,green,N
+Z,C,green,N
+C,D,blue,S
+A,B,blue,S
+A,X,brown,N
+X,A,brown,S

@@ -1,0 +1,21 @@
+# Uppgift 1
+Det finns 11 punkter.
+
+# Uppgift 2
+Man måste få minst 5 poäng på varje labb för att få godkänt.
+
+# Uppgift 3
+Python, elisp (otroligt lite), R, och mathematica
+
+# Uppgift 4
+## Python
+Funktionellt, Imperativt, objekt-orienterat, meta, generiskt, reflektivt (?).
+
+## elisp
+Deklarativt, Funktionellt, meta, Generiskt, imperativt, reflektivt, objektorienterat. 
+
+## R 
+R har samma som python, förutom meta och generiskt.
+
+## mathematica
+Mathematica kan vara vad man vill verkar det som på wikipedia (förutom Visuellt). 

@@ -1,0 +1,172 @@
+\documentclass{article}
+
+\usepackage[a4paper, total={6in, 8in}]{geometry} % Page margins
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, mathtools, amsfonts, amsthm}
+\usepackage{wasysym} % Smiley QED
+\usepackage{eulervm} % Font
+\usepackage{fancyhdr} % Custom headers and footers
+\fancyhead[C]{\thepage} % Page numbering for center header
+\usepackage{mdframed}
+\usepackage{xcolor}
+
+% list environments               
+\usepackage{enumerate}            
+\usepackage[shortlabels]{enumitem}      
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+
+\usepackage{listings}
+\lstset{basicstyle = \ttfamily, mathescape}
+\title{DSA hand-in 1}
+\author{David Sermoneta}
+
+
+\begin{document}
+\maketitle
+\section*{Exercise 1}
+\begin{lstlisting}
+function multiplier(a, b):                                     
+  1 y = 0
+  2 atimesb = 0
+  3 WHILE y < b:
+  4     x = 0
+  5     WHILE x < a:
+  6         atimesb = inc(atimesb)
+  7         x = inc(x)
+  8     y = inc(y)        
+  9 RETURN atimesb
+\end{lstlisting}
+We need three things, a counter to keep track of how 
+many times we've added 1 to \texttt{a} (should be \texttt{a} times),
+and a counter to keep
+track of how many times to add \texttt{a} to itself (should be \texttt{b} times).
+
+The first counter that achieves this is the 
+counter \texttt{y}, as we run the first while loop, we will
+add \texttt{1} to \texttt{y} until it stops being smaller than \texttt{b}, then 
+we'll have known that we've added \texttt{a} to itself exactly \texttt{b} times.
+\newpage
+\section*{Exercise 2}
+\subsection*{Part a)}
+Let $A = ($\texttt{apppe, apple, appl, apap, 
+appap}$)$. After each iteration of the \texttt{FOR} loop
+we get 
+ \begin{lstlisting}
+j = 0: (apppe, apple, appl, apap, appap)
+    1: (apple, apppe, appl, apap, appap)
+    2: (appl, apple, apppe, apap, appap)
+    3: (apap, appl, apple, apppe, appap)
+    4: (apap, appap, appl, apple, apppe)
+\end{lstlisting}
+
+\subsection*{Part b)}
+To get the worst case runtime of insertion sort,
+we want the \texttt{WHILE} loop to execute as much 
+as possible, (as all the other steps have fixed
+runtimes after a choice of the input size). To get that, 
+we want \texttt{key} $\prec$ \texttt{A[i]} for all 
+\texttt{i}  $\geq $ \texttt{0}. This is ensured to be the
+case if we let $A$ be in reversed order. That is $A'$ should be 
+\begin{lstlisting}
+    A' = (apppe, apple, appl, appap, apap).
+\end{lstlisting}
+
+
+\section*{Exercise 3}
+\subsection*{Part a)}
+We know that $T_{B}(n)$ is in $O(T_{A}(n))$ if and only if 
+$T_{A}(n)$ is in $\Omega(T_{B}(n))$, that is, if for some positive constants
+$c,n_0$, \[
+T_{B}(n) \leq cT_{A}\left( n \right), \text{ for all } n \geq  n_0.
+\] To solve this, we write out all terms and rewrite a bit to get \[
+\frac{5}{2}n^2 < \frac{cn^2}{10}\log_{10}(n) \iff 25 n^2 
+< cn^2\log_{10}(n).
+\] Here it is easy to see that $c=1$ and $n_0=10^{25}$ is a choice of
+constants that help us satisfy the inequality (since $\log_{10}(10^{25})=25$).
+Therefore, $T_{B}(n) \in O(T_{A}\left(n \right) )$, and $T_{A}(n) \in \Omega(T_{B}(n)$. 
+\bigskip \newline
+To be done, we just need to show that $T_{A}(n)$ is not in $O(T_{B}(n))$. We do so via 
+contradiction. Suppose it was true, then for some constants $c,n_0  >0$, we have that for all
+$n\geq n_0$, \[
+\frac{n^2}{10}\log_{10}(n) \leq \frac{5c}{2}n^2 \iff \log_{10}(n) \leq 25c.
+\] However, this is clearly not possible, as for $n\geq 10^{25c}$, the inequality does not hold.
+Therefore we are done, $T_{B}$ is the better algorithm for general $n$.
+
+
+\subsection*{Part b)}
+First we note that both runtimes of each algorithm are monotone increasing.
+From this it becomes clear that for $n\leq 10^{9}$, algorithm $A$ is the 
+recommended one, since \[
+    T_{A}(10^{9})=\frac{10^{18}}{10}\log_{10}(10^9)= 10^{17}\cdot 9 < 
+    10^{17}\cdot 25 =  \frac{5\cdot 10^{18}}{2} = T_{B}(10^{9}),
+\] and we are done.
+
+\section*{Exercise 4}
+\subsection*{Part a)}
+For \texttt{function(100, 0)}, we get the following values of 
+\texttt{n} and  \texttt{N}:
+\begin{lstlisting}
+n: 100 N: 0
+n: 33  N: 1
+n: 11  N: 2
+n: 3   N: 3
+n: 1   N: 4 .
+\end{lstlisting}
+
+\subsection*{Part b)}
+We note that the runtime of  \texttt{function(n,N} only depends on the input of 
+\texttt{n}. Therefore, we can denote the runtime by $T(n)$, and we get that 
+the check and increment operations only take $\Theta(1)$ time, and so we get that
+\[
+T(n) = 2\Theta(1) + T\left(\left\lfloor \frac{n}{3} \right\rfloor\right).
+\] Iterating this a few times, we get the following pattern  \[
+T(n) = 2N'\Theta(1) + T\left(\left\lfloor \frac{n}{3^{N'}} \right\rfloor\right).
+\]
+It is clear that the algorithm will terminate at $n=1$, so we want
+to find for which  $N'$, $\frac{n}{3^{N'}}\leq  1$, which gives
+us that $\log_{3}(n) \leq N'$. Putting $N'=\log_{3}(n)$ in our formula gives us \[
+T(n) = 2\log_{3}(n)\Theta(1) + T(1) \in O(\log_{3}(n)).
+\] And we are done, we have shown that the best case scenario for 
+\texttt{function(n,N)} is $O(\log_{3}(n))$.
+\newpage
+\section*{Exercise 5}
+Let $ S = \{ A_0, A_{1}, \ldots, A_{9} \}$ correspond to the 10 stacks of items,
+such that for each $A_{i},$ \[
+    A_{i} = \{ a_{i,1}, a_{i,2}, \ldots, a_{i,10}\}.
+\] 
+Keeping to the constraints of our tools, we want to minimize the amount of times we
+need to weigh items. So optimally our algorithm would only need to do a single
+weighing. And this is certainly possible, if we take one item from $A_0$, 
+2 items from $A_1$ and so on until we get to 10 items from $A_{9}$, we will get
+the following equation: \[
+\text{Balance} = \sum\limits_{k=1}^{10} (k) + (i + 1), \] where $(i+1)$
+stands for the extra grams depending on which stack $A_{i}$ has the
+counterfeit items.  Written in pseudo-code, we get 
+\begin{lstlisting}
+function find_counterfeit(S):
+    1 items = []
+    2 FOR (i = 0 to 9) DO:
+    3    A = S[i]
+    4    items.add(A[0,i]
+    5 counterfeit weight = weigh(items) - 55 
+    6 print("Stack number",{counterfeit weight - 1},contains
+    7 all counterfeit items."
+    8 RETURN (counterfeit weight - 1)
+\end{lstlisting}
+So the function returns the the index of the stack $A_{i}$ that has all
+the counterfeit items, and we are done.
+
+
+\end{document}

@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{titling}
+
+\usepackage[bottom=0.7in]{geometry}
+\setlength{\droptitle}{-6em}
+\title{INDU-Rapport} 
+\author{David Sermoneta}
+\date{Mars 2023}
+
+\begin{document}
+
+\maketitle
+\noindent Jag har valt att ta mig an projektet Tåg. När programmet sätts igång så bes användaren skriva in två '.txt' filer, en "stations"-fil och en "connections"-fil. Bifogat är 2 stycken fil-par som jag använt under skapandet av programmet. När dessa väljs ut så kommer \verb|parse_through_file()| att gå igenom filerna och kontrollera att de är av rätt format, för att sedan returnera en lista av listor för alla rader respektive dokument. Till slut kontrolleras det även att dokumenten faktiskt är kompatibla.  
+Om allt har gått bra så skapas stations-objekten genom att läsa listan från "stations"-filen m.h.a. \verb|create_stations()|. Varje station har instans-attributen \verb|name, delay, south, north|.
+Objekten skapas med endast namn och förseningssannolikhet. Direkt efter går vi igenom "connections"-listan m.h.a. \verb|setup_connections()| som för varje lista i listan kallar på klass-metoden \verb|add_connections()| i \verb|Stations|-klassen, som ser till att södra stationer hamnar i \verb|south|-instansen och norra stationer i \verb|north|-instansen. 
+Till slut bör alla stationer ha instanser som i följande exempel: \begin{verbatim}
+    A.name #A ,
+    A.delay #0.02 ,
+    A.south #{'red' : 'B'} ,
+    A.north #{} .
+\end{verbatim}
+Att \verb|A.north| returnerar en tom dictionary svarar då mot att stations \verb|A| är en slutstation i norra riktningen. 
+När det är gjort och färdigt får användaren skriva in hur många tåg hen önskar simulera, och när det valet görs så sätts \verb|create_trains()| funktionen igång, och den gör precis det man kan tänka sig att den gör, nämligen skapa tåg. Då skapas tåg-objekt med endast ett tal som namn, för att sedan bli tilldelade en slumpmässigt vald station m.h.a. modulen \verb|random|, som sedan tar instansattributer från stationen såsom \verb|current_station, direction, line, next_station|. Alla fås från stationen lottad i \verb|create_trains()| m.h.a. klass-metoden \verb|add_info()|. 
+\\
+
+\noindent Nu är det bara simulationen kvar, och när den körs så uppdateras helt enkelt bara tåg-objektets (givet att den passerar delay-checken) \verb|current_station| med dess \verb|next_station| och, om den hamnat i en slutstation, \verb|direction|. 
+\\
+
+\noindent Jag har strukturerat största delen av mitt program till att kretsa kring klasserna \verb|Stations|, och \verb|Trains|. Stations-klassen är framför allt till att organisera all information från stations, och connections -filerna, för att göra den lättåtkomlig för tågklassen senare. Tåg-klassen är den som sen når och hämtar information från stations-objekten för att skapa tåg-objekten, och för att köra igång simulationen.
+\\
+
+\noindent För andra uppgiften, valde jag att använda mig av en djupet-först sökning. Sökningen går till via rekursiva metoden \verb|reach_from()| som sparar alla nårbara stationer från start till uppslagstabellen \verb|memory| med värdet som svarar mot minsta antalet steg från start. Till slut kontrolleras det om den valda destinationen finns med i \verb|memory| inom antalet steg som angavs av användaren.
+\\
+
+\noindent Andra filen som jag lämnar in är ett enhetstest för att se kolla att de viktigaste delarna av programmet fungerar som de ska. Den exekverar nästan alla funktioner som ursprungliga programmet har, men utan någon som helst input från användaren. Filerna den använder sig av är \verb|'s3.txt'| och \verb|'c3.txt'|.
+\\
+
+\end{document}

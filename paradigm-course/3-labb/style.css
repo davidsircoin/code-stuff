@@ -1,0 +1,34 @@
+table {
+    border-spacing: 0;
+    border: 4px solid #192841;
+    border-collapse: collapse;
+}
+
+td {
+    border: 2px dotted #192841;
+    padding: 0;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 2.0em;
+}
+
+td:hover {
+    background-color:#f2e5ff;
+}
+
+#c0x2, #c0x5, #c1x2, #c1x5, #c2x5,
+#c3x2,#c3x5, #c4x2, #c4x5, #c5x2, #c5x5,
+#c6x2, #c6x5, #c7x2, #c7x5, #c8x2, #c8x5 {
+    border-right: 3px solid #192841;
+}
+
+#c2x0, #c2x1, #c2x3, #c2x4, #c2x6, #c2x7,
+#c5x0, #c5x1, #c5x3, #c5x4, #c5x6, #c5x7 {
+    border-bottom: 3px solid #192841;
+}
+
+#c2x2, #c2x5, #c2x8, #c5x2, #c5x5, #c5x8 {
+    border-bottom: 3px solid #192841;
+    border-right: 3px solid #192841;
+}
