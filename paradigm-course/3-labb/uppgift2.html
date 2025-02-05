@@ -1,62 +1,118 @@
 <html>
-  <head>
+
+<head>
     <link href="style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="sudoku.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
 
     <table align="center">
-      <tr>
-	<td id='c0x0'></td><td id='c0x1'></td><td id='c0x2'></td>
-	<td id='c0x3'></td><td id='c0x4'></td><td id='c0x5'></td>
-	<td id='c0x6'></td><td id='c0x7'></td><td id='c0x8'></td>
-      </tr>
-      <tr>
-	<td id='c1x0'></td><td id='c1x1'></td><td id='c1x2'></td>
-	<td id='c1x3'></td><td id='c1x4'></td><td id='c1x5'></td>
-	<td id='c1x6'></td><td id='c1x7'></td><td id='c1x8'></td>
-      </tr>
-      <tr>
-	<td id='c2x0'></td><td id='c2x1'></td><td id='c2x2'></td>
-	<td id='c2x3'></td><td id='c2x4'></td><td id='c2x5'></td>
-	<td id='c2x6'></td><td id='c2x7'></td><td id='c2x8'></td>
-      </tr>
+        <tr>
+            <td id='c0x0'></td>
+            <td id='c0x1'></td>
+            <td id='c0x2'></td>
+            <td id='c0x3'></td>
+            <td id='c0x4'></td>
+            <td id='c0x5'></td>
+            <td id='c0x6'></td>
+            <td id='c0x7'></td>
+            <td id='c0x8'></td>
+        </tr>
+        <tr>
+            <td id='c1x0'></td>
+            <td id='c1x1'></td>
+            <td id='c1x2'></td>
+            <td id='c1x3'></td>
+            <td id='c1x4'></td>
+            <td id='c1x5'></td>
+            <td id='c1x6'></td>
+            <td id='c1x7'></td>
+            <td id='c1x8'></td>
+        </tr>
+        <tr>
+            <td id='c2x0'></td>
+            <td id='c2x1'></td>
+            <td id='c2x2'></td>
+            <td id='c2x3'></td>
+            <td id='c2x4'></td>
+            <td id='c2x5'></td>
+            <td id='c2x6'></td>
+            <td id='c2x7'></td>
+            <td id='c2x8'></td>
+        </tr>
 
-      <tr>
-	<td id='c3x0'></td><td id='c3x1'></td><td id='c3x2'></td>
-	<td id='c3x3'></td><td id='c3x4'></td><td id='c3x5'></td>
-	<td id='c3x6'></td><td id='c3x7'></td><td id='c3x8'></td>
-      </tr>
-      <tr>
-	<td id='c4x0'></td><td id='c4x1'></td><td id='c4x2'></td>
-	<td id='c4x3'></td><td id='c4x4'></td><td id='c4x5'></td>
-	<td id='c4x6'></td><td id='c4x7'></td><td id='c4x8'></td>
-      </tr>
-      <tr>
-	<td id='c5x0'></td><td id='c5x1'></td><td id='c5x2'></td>
-	<td id='c5x3'></td><td id='c5x4'></td><td id='c5x5'></td>
-	<td id='c5x6'></td><td id='c5x7'></td><td id='c5x8'></td>
-      </tr>
+        <tr>
+            <td id='c3x0'></td>
+            <td id='c3x1'></td>
+            <td id='c3x2'></td>
+            <td id='c3x3'></td>
+            <td id='c3x4'></td>
+            <td id='c3x5'></td>
+            <td id='c3x6'></td>
+            <td id='c3x7'></td>
+            <td id='c3x8'></td>
+        </tr>
+        <tr>
+            <td id='c4x0'></td>
+            <td id='c4x1'></td>
+            <td id='c4x2'></td>
+            <td id='c4x3'></td>
+            <td id='c4x4'></td>
+            <td id='c4x5'></td>
+            <td id='c4x6'></td>
+            <td id='c4x7'></td>
+            <td id='c4x8'></td>
+        </tr>
+        <tr>
+            <td id='c5x0'></td>
+            <td id='c5x1'></td>
+            <td id='c5x2'></td>
+            <td id='c5x3'></td>
+            <td id='c5x4'></td>
+            <td id='c5x5'></td>
+            <td id='c5x6'></td>
+            <td id='c5x7'></td>
+            <td id='c5x8'></td>
+        </tr>
 
-      <tr>
-	<td id='c6x0'></td><td id='c6x1'></td><td id='c6x2'></td>
-	<td id='c6x3'></td><td id='c6x4'></td><td id='c6x5'></td>
-	<td id='c6x6'></td><td id='c6x7'></td><td id='c6x8'></td>
-      </tr>
-      <tr>
-	<td id='c7x0'></td><td id='c7x1'></td><td id='c7x2'></td>
-	<td id='c7x3'></td><td id='c7x4'></td><td id='c7x5'></td>
-	<td id='c7x6'></td><td id='c7x7'></td><td id='c7x8'></td>
-      </tr>
-      <tr>
-	<td id='c8x0'></td><td id='c8x1'></td><td id='c8x2'></td>
-	<td id='c8x3'></td><td id='c8x4'></td><td id='c8x5'></td>
-	<td id='c8x6'></td><td id='c8x7'></td><td id='c8x8'></td>
-      </tr>
+        <tr>
+            <td id='c6x0'></td>
+            <td id='c6x1'></td>
+            <td id='c6x2'></td>
+            <td id='c6x3'></td>
+            <td id='c6x4'></td>
+            <td id='c6x5'></td>
+            <td id='c6x6'></td>
+            <td id='c6x7'></td>
+            <td id='c6x8'></td>
+        </tr>
+        <tr>
+            <td id='c7x0'></td>
+            <td id='c7x1'></td>
+            <td id='c7x2'></td>
+            <td id='c7x3'></td>
+            <td id='c7x4'></td>
+            <td id='c7x5'></td>
+            <td id='c7x6'></td>
+            <td id='c7x7'></td>
+            <td id='c7x8'></td>
+        </tr>
+        <tr>
+            <td id='c8x0'></td>
+            <td id='c8x1'></td>
+            <td id='c8x2'></td>
+            <td id='c8x3'></td>
+            <td id='c8x4'></td>
+            <td id='c8x5'></td>
+            <td id='c8x6'></td>
+            <td id='c8x7'></td>
+            <td id='c8x8'></td>
+        </tr>
     </table>
 
     <script>
-      init(easy);
+        init(easy);
     </script>
 
     <br>
@@ -65,97 +121,98 @@
     <h2>Tests</h2>
     <hr>
     <script>
-      document.write("Test arrayToString:<br><br>");
-      document.write("arrayToString(emptySudoku()):<br>" + arrayToString(emptySudoku()) + "<br>");
-      document.write("arrayToString(diagonal):<br>" + arrayToString(diagonal) + "<br>");
-      document.write("arrayToString(easy):<br>" + arrayToString(easy) + "<br>");
-      document.write("arrayToString(medium):<br>" + arrayToString(medium) + "<br>");
-      document.write("arrayToString(hard):<br>" + arrayToString(hard) + "<br>");
-      document.write("arrayToString(almostsolved):<br>" + arrayToString(almostsolved) + "<br>");
-      document.write("arrayToString(solved):<br>" + arrayToString(solved) + "<br>");
+        document.write("Test arrayToString:<br><br>");
+        document.write("arrayToString(emptySudoku()):<br>" + arrayToString(emptySudoku()) + "<br>");
+        document.write("arrayToString(diagonal):<br>" + arrayToString(diagonal) + "<br>");
+        document.write("arrayToString(easy):<br>" + arrayToString(easy) + "<br>");
+        document.write("arrayToString(medium):<br>" + arrayToString(medium) + "<br>");
+        document.write("arrayToString(hard):<br>" + arrayToString(hard) + "<br>");
+        document.write("arrayToString(almostsolved):<br>" + arrayToString(almostsolved) + "<br>");
+        document.write("arrayToString(solved):<br>" + arrayToString(solved) + "<br>");
     </script>
     <br>
     <hr>
     <script>
-      document.write("Test blocks:<br><br>");
-      document.write("arrayToString(blocks(diagonal)):<br>" + arrayToString(blocks(diagonal)) + "<br>");
-      document.write("arrayToString(blocks(easy)):<br>" + arrayToString(blocks(easy)) + "<br>");
-      document.write("arrayToString(blocks(medium)):<br>" + arrayToString(blocks(medium)) + "<br>");
-      document.write("arrayToString(blocks(hard)):<br>" + arrayToString(blocks(hard)) + "<br>");
-      document.write("arrayToString(blocks(almostsolved)):<br>" + arrayToString(blocks(almostsolved)) + "<br>");
-      document.write("arrayToString(blocks(solved)):<br>" + arrayToString(blocks(solved)) + "<br>");
+        document.write("Test blocks:<br><br>");
+        document.write("arrayToString(blocks(diagonal)):<br>" + arrayToString(blocks(diagonal)) + "<br>");
+        document.write("arrayToString(blocks(easy)):<br>" + arrayToString(blocks(easy)) + "<br>");
+        document.write("arrayToString(blocks(medium)):<br>" + arrayToString(blocks(medium)) + "<br>");
+        document.write("arrayToString(blocks(hard)):<br>" + arrayToString(blocks(hard)) + "<br>");
+        document.write("arrayToString(blocks(almostsolved)):<br>" + arrayToString(blocks(almostsolved)) + "<br>");
+        document.write("arrayToString(blocks(solved)):<br>" + arrayToString(blocks(solved)) + "<br>");
     </script>
     <br>
     <hr>
     <script>
-      document.write("Test isValidBlock:<br><br>");
-      document.write("isValidBlock([0,0,0,0,0,0,0,0,0]): " + isValidBlock([0,0,0,0,0,0,0,0,0]) + "<br>");
-      document.write("isValidBlock([1,2,3,4,5,6,7,8,9]): " + isValidBlock([1,2,3,4,5,6,7,8,9]) + "<br>");
-      document.write("isValidBlock([9,8,7,6,5,4,3,2,1]): " + isValidBlock([9,8,7,6,5,4,3,2,1]) + "<br>");
-      document.write("isValidBlock([0,2,0,4,5,6,7,8,9]): " + isValidBlock([0,2,0,4,5,6,7,8,9]) + "<br>");
-      document.write("isValidBlock([2,2,0,4,5,6,7,8,9]): " + isValidBlock([2,2,0,4,5,6,7,8,9]) + "<br>");
-      document.write("isValidBlock([0,2,0,4,5,6,7,8,2]): " + isValidBlock([0,2,0,4,5,6,7,8,2]) + "<br>");
-      document.write("isValidBlock([2,0,0,4,5,6,7,8,2]): " + isValidBlock([2,0,0,4,5,6,7,8,2]) + "<br>");
+        document.write("Test isValidBlock:<br><br>");
+        document.write("isValidBlock([0,0,0,0,0,0,0,0,0]): " + isValidBlock([0, 0, 0, 0, 0, 0, 0, 0, 0]) + "<br>");
+        document.write("isValidBlock([1,2,3,4,5,6,7,8,9]): " + isValidBlock([1, 2, 3, 4, 5, 6, 7, 8, 9]) + "<br>");
+        document.write("isValidBlock([9,8,7,6,5,4,3,2,1]): " + isValidBlock([9, 8, 7, 6, 5, 4, 3, 2, 1]) + "<br>");
+        document.write("isValidBlock([0,2,0,4,5,6,7,8,9]): " + isValidBlock([0, 2, 0, 4, 5, 6, 7, 8, 9]) + "<br>");
+        document.write("isValidBlock([2,2,0,4,5,6,7,8,9]): " + isValidBlock([2, 2, 0, 4, 5, 6, 7, 8, 9]) + "<br>");
+        document.write("isValidBlock([0,2,0,4,5,6,7,8,2]): " + isValidBlock([0, 2, 0, 4, 5, 6, 7, 8, 2]) + "<br>");
+        document.write("isValidBlock([2,0,0,4,5,6,7,8,2]): " + isValidBlock([2, 0, 0, 4, 5, 6, 7, 8, 2]) + "<br>");
     </script>
     <br>
     <hr>
     <script>
-      document.write("Test isValid:<br><br>");
-      document.write("isValid(diagonal): " + isValid(diagonal) + "<br>");
-      document.write("isValid(easy): " + isValid(easy) + "<br>");
-      document.write("isValid(medium): " + isValid(medium) + "<br>");
-      document.write("isValid(hard): " + isValid(hard) + "<br>");
-      document.write("isValid(almostsolved): " + isValid(almostsolved) + "<br>");
-      document.write("isValid(solved): " + isValid(solved) + "<br>");
+        document.write("Test isValid:<br><br>");
+        document.write("isValid(diagonal): " + isValid(diagonal) + "<br>");
+        document.write("isValid(easy): " + isValid(easy) + "<br>");
+        document.write("isValid(medium): " + isValid(medium) + "<br>");
+        document.write("isValid(hard): " + isValid(hard) + "<br>");
+        document.write("isValid(almostsolved): " + isValid(almostsolved) + "<br>");
+        document.write("isValid(solved): " + isValid(solved) + "<br>");
 
-      // Three invalid sudokus:
-      var diagonal1 =
-          [ [1,0,0,0,0,0,0,0,1]
-          , [0,2,0,0,0,0,0,0,0]
-          , [0,0,3,0,0,0,0,0,0]
-          , [0,0,0,4,0,0,0,0,0]
-          , [0,0,0,0,5,0,0,0,0]
-          , [0,0,0,0,0,6,0,0,0]
-          , [0,0,0,0,0,0,7,0,0]
-          , [0,0,0,0,0,0,0,8,0]
-          , [0,0,0,0,0,0,0,0,9] ];
+        // Three invalid sudokus:
+        var diagonal1 =
+            [[1, 0, 0, 0, 0, 0, 0, 0, 1]
+                , [0, 2, 0, 0, 0, 0, 0, 0, 0]
+                , [0, 0, 3, 0, 0, 0, 0, 0, 0]
+                , [0, 0, 0, 4, 0, 0, 0, 0, 0]
+                , [0, 0, 0, 0, 5, 0, 0, 0, 0]
+                , [0, 0, 0, 0, 0, 6, 0, 0, 0]
+                , [0, 0, 0, 0, 0, 0, 7, 0, 0]
+                , [0, 0, 0, 0, 0, 0, 0, 8, 0]
+                , [0, 0, 0, 0, 0, 0, 0, 0, 9]];
 
-      var diagonal2 =
-          [ [1,0,0,0,0,0,0,0,0]
-          , [0,2,0,0,0,0,0,0,0]
-          , [0,0,3,0,0,0,0,0,0]
-          , [0,0,0,4,0,0,0,0,0]
-          , [0,0,0,0,5,0,0,0,0]
-          , [0,0,0,0,0,6,0,0,0]
-          , [0,0,0,0,0,0,7,0,0]
-          , [0,0,0,0,0,0,0,8,0]
-          , [1,0,0,0,0,0,0,0,9] ];
+        var diagonal2 =
+            [[1, 0, 0, 0, 0, 0, 0, 0, 0]
+                , [0, 2, 0, 0, 0, 0, 0, 0, 0]
+                , [0, 0, 3, 0, 0, 0, 0, 0, 0]
+                , [0, 0, 0, 4, 0, 0, 0, 0, 0]
+                , [0, 0, 0, 0, 5, 0, 0, 0, 0]
+                , [0, 0, 0, 0, 0, 6, 0, 0, 0]
+                , [0, 0, 0, 0, 0, 0, 7, 0, 0]
+                , [0, 0, 0, 0, 0, 0, 0, 8, 0]
+                , [1, 0, 0, 0, 0, 0, 0, 0, 9]];
 
-      var diagonal3 =
-          [ [1,0,0,0,0,0,0,0,0]
-          , [0,2,0,0,0,0,0,0,0]
-          , [0,1,3,0,0,0,0,0,0]
-          , [0,0,0,4,0,0,0,0,0]
-          , [0,0,0,0,5,0,0,0,0]
-          , [0,0,0,0,0,6,0,0,0]
-          , [0,0,0,0,0,0,7,0,0]
-          , [0,0,0,0,0,0,0,8,0]
-          , [0,0,0,0,0,0,0,0,9] ];
+        var diagonal3 =
+            [[1, 0, 0, 0, 0, 0, 0, 0, 0]
+                , [0, 2, 0, 0, 0, 0, 0, 0, 0]
+                , [0, 1, 3, 0, 0, 0, 0, 0, 0]
+                , [0, 0, 0, 4, 0, 0, 0, 0, 0]
+                , [0, 0, 0, 0, 5, 0, 0, 0, 0]
+                , [0, 0, 0, 0, 0, 6, 0, 0, 0]
+                , [0, 0, 0, 0, 0, 0, 7, 0, 0]
+                , [0, 0, 0, 0, 0, 0, 0, 8, 0]
+                , [0, 0, 0, 0, 0, 0, 0, 0, 9]];
 
-      document.write("isValid(diagonal1): " + isValid(diagonal1) + "<br>");
-      document.write("isValid(diagonal2): " + isValid(diagonal2) + "<br>");
-      document.write("isValid(diagonal3): " + isValid(diagonal3) + "<br>");
+        document.write("isValid(diagonal1): " + isValid(diagonal1) + "<br>");
+        document.write("isValid(diagonal2): " + isValid(diagonal2) + "<br>");
+        document.write("isValid(diagonal3): " + isValid(diagonal3) + "<br>");
     </script>
     <br>
     <hr>
     <script>
-      document.write("Test isSolved:<br><br>");
-      document.write("isSolved(diagonal): " + isSolved(diagonal) + "<br>");
-      document.write("isSolved(easy): " + isSolved(easy) + "<br>");
-      document.write("isSolved(medium): " + isSolved(medium) + "<br>");
-      document.write("isSolved(hard): " + isSolved(hard) + "<br>");
-      document.write("isSolved(almostsolved): " + isSolved(almostsolved) + "<br>");
-      document.write("isSolved(solved): " + isSolved(solved) + "<br>");
+        document.write("Test isSolved:<br><br>");
+        document.write("isSolved(diagonal): " + isSolved(diagonal) + "<br>");
+        document.write("isSolved(easy): " + isSolved(easy) + "<br>");
+        document.write("isSolved(medium): " + isSolved(medium) + "<br>");
+        document.write("isSolved(hard): " + isSolved(hard) + "<br>");
+        document.write("isSolved(almostsolved): " + isSolved(almostsolved) + "<br>");
+        document.write("isSolved(solved): " + isSolved(solved) + "<br>");
     </script>
-  </body>
+</body>
+
 </html>
