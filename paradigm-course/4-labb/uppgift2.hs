@@ -23,20 +23,3 @@ main :: IO ()
 main = do
   let secret = 63
   loop secret
-
-main_ :: IO ()
-main_ = loop_ 63
-
-loop_ :: Integer -> IO ()
-loop_ secret =
-  putStrLn "Give me a guess"
-    >>= ( \() ->
-            getLine
-              >>= ( \x ->
-                      if x == show secret
-                        then
-                          putStrLn "Success!"
-                        else
-                          loop secret
-                  )
-        )
