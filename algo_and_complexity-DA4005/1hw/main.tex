@@ -1,0 +1,300 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[OT1]{fontenc}
+\input{~/Documents/latex-config/math-preamble}
+\title{DA4005: Homework set 1}
+\newcommand{\bl}{\ensuremath{\text{\textvisiblespace}}}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\newcommand{\word}[1]{\text{\textbf{\texttt{#1}}}}
+ 
+\author{David Sermoneta}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section*{Problem 1}
+I will use the convention that if $u,v$ are sequences in
+the alphabet  $\Sigma$, $q$ a state of our Turing machine $M$, then $uqv$ means
+that for the part of the tape to the left of our reader is $u$, and the reader
+is in state $q$ reading the first letter in $v$, that is to the right of our
+reader.
+ With this compact notation in mind, the trace of our machine on the input
+\word{100} is 
+\begin{align*}
+ & q_0 \word{100} \bl \\
+   \stackrel{\delta}{\to} \, & \word{1} q_1 \word{000} \bl  \\
+\stackrel{\delta}{\to} \, & \word{10}q_2 \word{0} \bl \\
+\stackrel{\delta}{\to} \, & \word{100} q_2 \bl\\
+\stackrel{\delta}{\to} \, & \word{100} \bl q_{A}.
+\end{align*}
+For the input $\word{1010}$, we get something similar, that is 
+ \begin{align*}
+  & q_0 \word{1010} \bl \\
+\stackrel{\delta}{\to} \, & \word{1} q_1 \word{010}  \bl \\
+\stackrel{\delta}{\to} \, & \word{10} q_2 \word{10} \bl \\
+\stackrel{\delta}{\to} \, & \word{101} q_1 \text{0} \bl \\
+\stackrel{\delta}{\to} \, & \word{1010} q_2  \bl \\
+\stackrel{\delta}{\to} \, & \word{100} \bl q_{A}.
+ \end{align*}
+For the input $\word{111}$, it's much the same procedure, except now our TM ends up in a rejection state. We have that
+\begin{align*}
+&  q_0 \word{111} \bl \\
+\stackrel{\delta}{\to} \, & \word{1} q_1 \word{11}  \bl \\
+\stackrel{\delta}{\to} \, & \word{11} q_1 \word{1}  \bl \\
+\stackrel{\delta}{\to} \, & \word{111} q_1  \bl \\
+\stackrel{\delta}{\to} \, & \word{111} \bl q_R .
+\end{align*}
+The language described by $M$ is precisely the finite sequences of $\word{0}$s and $\word{1}$s ending in a $\word{0}$. This is because the machine always moves right regardless of state or read symbol, and no matter what, if the read symbol is a $0$, $M$ transitions to state $q_2$, which is the only one that transitions into the accepting state, given that the next symbol to the right is the blank symbol $\bl$.
+
+\section*{Problem 2}
+We construct a Turing Machine $M$ that decides the language $$L = \{ w \in
+\word{a,b}^{*}  : w \text{ is of the form } \word{a}^{2k}\word{b}^{k}, \,
+k \geq 0 \}.$$ The idea of our machine is to first check that the input string
+is of the form  $\word{a}^{j}\word{b}^{k}$ for any $j,k \in \N$. Then,
+assuming the input is non-empty, and isn't just $\word{a}$'s, we go to the
+right-most $\word{b}$ and turn it into a blank symbol $\bl$. After that we
+go all the way to the left. If there is no $\word{a}$, we reject, otherwise
+we will eventually reach the first $\word{a}$, turn that into a blank, go one
+step to the right, and if that's an $\word{a}$, then turn that into a blank
+as well and again go to the rightmost $b$ and start over the whole process.
+We started by making sure the input string is just $\word{a}$'s
+followed by $\word{b}$'s, so after matching the right-most $\word{b}$ with the two left-most $\word{a}$'s (if each exists) turning all three symbols into blanks, we can just run the same procedure again, until the input tape is turned into all blanks, in which case it accepts, or if the ratio of  $\word{a}$'s and $\word{b}$'s is wrong, it eventually rejects, because either there will be a $\word{b}$ and not enough $\word{a}$'s, or viceversa. The Turing machine $M$ is given by the following transition table. 
+\[
+\begin{array}{@{}lccc@{}}
+\toprule
+\text{State} & \word{a} & \word{b} & \bl \\
+\midrule
+\word{Start} & (\word{checkAsBeforeBs},\word{a},R) & (q_R,\word{b},R) & (q_A,\bl,R)\\
+\word{checkAsBeforeBs} & (\word{checkAsBeforeBs}, \word{a},R ) & (\word{findLastB}, \word{b}, R) & (q_R, \bl, R) \\
+\word{findLastB} & (q_R, \word{a}, R) & (\word{findLastB},\word{b},R) & (\word{delLastB}, \bl, L) \\ 
+\word{delLastB} & (q_R, \word{a}, R) & (\word{findFirstA}, \bl, L) & (q_A, \bl, R) \\
+\word{findFirstA} & (\word{findFirstA}, \word{a}, L) & (\word{findFirstA}, \word{b}, L) & (\word{delFirstA}, \bl, R) \\
+\word{delFirstA} & (\word{delSecondA}, \bl, R) & (q_R, \word{b}, R) & (q_R, \bl, R) \\
+\word{delSecondA} & (\word{againLastB}, \bl, R) & (q_R, \word{b}, R) & (q_R, \bl, R) \\
+\word{againLastB} & (\word{againLastB}, \word{a}, R) & (\word{againLastB}, \word{b}, R) & (\word{delLastB}, \bl, L) \\
+\bottomrule
+\end{array}
+\]
+\begin{proof}[Solution for (b)]
+We will use the same convention as in Problem 1, so $A \to B$ will indicate the application of the transition function on the input $A$ to the output $B$. Furthermore, if there are any consecutive blank symbols that are not adjacent to the state, I will only write out one \bl, as that will not affect the computation being carried out.
+ \begin{enumerate}
+  \item   \textbf{Input:} \word{aab} 
+\begin{align*}
+&   \bl \texttt{ Start aab } \bl \\
+\to & \bl \texttt{ a checkAsBeforeBs ab } \bl \\
+\to & \bl \texttt{ aa checkAsBeforeBs b } \bl \\
+\to & \bl \texttt{ aab findLastB } \bl \\
+\to & \bl \texttt{ aa delLastB b }  \bl \\
+\to & \bl \texttt{ a findFirstA a } \bl \bl \\
+\to & \bl \texttt{ findFirstA aa } \bl \\
+\to & \bl \texttt{ findFirstA } \bl \texttt{ aa } \bl \\
+\to & \bl \texttt{ delFirstA aa } \bl \\
+\to & \bl \bl \texttt{ delSecondA a  } \bl \\
+\to & \bl \bl \texttt{ againLastB } \bl \\
+\to & \bl \texttt{ delLastB } \bl \to \bl \, q_{A} \, \bl.
+\end{align*}
+  \item   \textbf{Input:} \word{aba} 
+\begin{align*}
+\to & \bl \texttt{ Start aba } \bl \\
+\to & \bl \texttt{ a checkAsBeforeBs b a} \bl  \\
+\to & \bl \texttt{ ab findLastB a } \bl \to \bl \texttt{ aba } q_R \, \bl.
+\end{align*}
+  \item   \textbf{Input:} \word{aaab} 
+\begin{align*}
+ & \bl \texttt{ Start aaab } \bl \\
+\to & \bl \texttt{ a checkAsBeforeBs aab } \bl \\
+\to & \bl \texttt{ aa checkAsBeforeBs ab } \bl \\
+\to & \bl \texttt{ aaa checkAsBeforeBs b } \bl \\
+\to & \bl \texttt{ aaab findLastB } \bl \\
+\to & \bl \texttt{ aaa delLastB b } \bl \\ 
+\to & \bl \texttt{ aa findFirstA a } \bl \bl \\
+\to & \bl \texttt{ a findFirstA aa } \bl \\
+\to & \bl \texttt{ findFirstA aaa } \bl \\
+\to & \bl \texttt{ findFirstA } \bl \texttt{ aaa } \bl \\
+\to & \bl \texttt{ delFirstA aaa } \bl \\
+\to & \bl \bl \texttt{ delSecondA aa } \bl \\
+\to & \bl \bl \texttt{ againLastB a } \bl \\
+\to & \bl \texttt{ a againLastB } \bl \\
+\to & \bl \texttt{ delLastB a } \bl \to \bl \texttt{ a } q_{R} \, \bl
+\end{align*}
+ \end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of (c)]
+ First off, we will show that for any input $\varepsilon \neq w \in
+\{\texttt{a},\texttt{b}\}^{*}$ that is not of the form $\texttt{a}^{j}
+\texttt{b}^{k}$ for $j, k \in \N$ and $j \neq 0$, $M$ will halt (and in fact, reject it). If $w
+=\varepsilon$, then it will accept because of how the starting state
+transitions when reading a blank symbol. If $w$ starts with a $\texttt{b}$,
+then $M$ in the starting state $\texttt{Start}$ automatically rejects it.
+ So each and every other (non-empty) input must start with an $\texttt{a}$. When this is the case,
+$\texttt{Start}$ transitions into $\texttt{checkAsBeforeBs}$, and starts moving
+to the right. What happens now is that until we encounter the first
+$\texttt{b}$ occurring in $w$, $\texttt{checkAsBeforeBs}$ ignores all the
+upcoming consecutive $\texttt{a}$s by moving right and not changing state. If
+by chance there is no $\texttt{b}$ to speak of, i.e. $w = a^{j}$, for $j >0$,
+ $\texttt{checkAsBeforeBs}$ will read a blank at the end of the string,
+resulting in the rejection state $q_{R}$, just as intended. Otherwise, the
+reader will eventually reach the first $\texttt{b}$ in $w$ (without having
+changed the tape at all), and that means that $M$ will move to the right, and
+transition into the state $\texttt{findLastB}$. The state $\texttt{findLastB}$
+is what decides whether or not $w$ is of the form $\texttt{a}^{j} \texttt{b}^{k}$,
+because if the letter right of the first $\texttt{b}$ is an $\texttt{a}$, the program halts and rejects $w$. This is also true if there is an occurrence of $\texttt{a}$ 
+after any finite amount of consecutive  $\texttt{b}$s, because $\texttt{findLastB}$ just ignores $\texttt{b}$s and keeps moving right. Therefore, we have so far
+proved that if $w$ is non-empty, it is rejected by $M$ if it isn't of the form $\texttt{a}^{j}\texttt{b}^{k}$, with $j,k > 0$.
+
+What remains to be proven, is that given $w$ is of the form just mentioned, $M$ accepts $w$ if and only if there are twice as many $\texttt{a}$s as $\texttt{b}$s, and rejects otherwise.
+ So returning to our scenario, the reader in the state $\texttt{findLastB}$
+will keep going right until it meets the end of $w$. By this point it will read
+a $\bl$, which makes $M$ transition into the state $\texttt{delLastB}$, and
+move one step to the left. At this phase, if $M$ has not halted, it will read a $\texttt{b}$ (in fact, it will be the last one of $w$), and so $M$ will
+transition from $\texttt{delLastB}$ to $\texttt{findFirstA},$ replace this
+$\texttt{b}$ with a $\bl$ and move left. Here it is worth mentioning that there are other times when $M$ can be in the state $\texttt{delLastB}$ when at the end of the non-blank part of the tape, where it can read a blank and therefore accept $w$. For reasons that become clear later, this will mean that the tape is empty, and so $M$ will accept $w$.
+ The state $\texttt{findFirstA}$ is pretty self-explanatory. It will make sure the reader ignores any instances of $\texttt{a}$s and $\texttt{b}$s, until it
+reaches a blank symbol right before the start of the string. When it does this,
+$M$ transitions into $\texttt{delFirstA}$, and moves back right to the first
+$\texttt{a}$ in $w$. This $\texttt{a}$ will be turned into a blank, and $M$
+will transition into $\texttt{delSecondA}$, and move to the right. Here, there
+are three scenarios that can occur.  The first one is that the next symbol is a
+$\texttt{b}$, meaning that $w$ had an insufficient amount of $\texttt{a}$s and $M$ will rightly reject $w$. The second scenario is that the next symbol is a blank,
+in which case the same thing happens, and it's again correct because of the same reason.
+ The third scenario is when the next symbol is an $\texttt{a}$, and this leads
+to $M$ transitioning into the state  $\texttt{againLastB}$, replacing the
+$\texttt{a}$ with a $\bl$, and moving to the right. This is where $M$ is
+reasonably simple to reason over.
+At initialization, the tape has gone from the form \[
+\bl \texttt{ Start a}^{j} \texttt{b}^{k} \, \bl
+\] to (grouping any consecutive blanks) \[
+\bl \texttt{ againLastB a}^{j - 2} \texttt{b}^{k - 1} \, \bl,
+\] given that it hasn't rejected it. If $M$ transitions to $q_{R}$ along the
+way, then we have already established this to be caused either by $w$ not being of the
+form  $\texttt{a}^{j}\texttt{b}^{k}$, where $j,k > 0$ (as established above) or by $j<2$, i.e. an odd, or too small count of $\texttt{a}$s which can never equal $2k$, for $k\geq 1$.
+
+This now gives us the ability to reason about $M$ solely with inputs of the form above,
+and now starting at the state $\texttt{againLastB}$. In this state, $M$ can
+only move right until it encounters the first blank at the end of the input.
+When it reaches a blank, it will transition to $\texttt{delLastB}$, move left,
+and do the exact same procedure as we described earlier, except now it is not
+given that $M$ will read a $\texttt{b}$ if it does, then everything is repeated
+just in the same way we just described, and we will again have removed the
+right-most $\texttt{b}$, the two left-most $\texttt{a}$s, and end up in the
+same state as when we started (unless $w$ is rejected, which we have already
+handled earlier). This can be repeated until the tape is just blanks, meaning
+that the number of $\texttt{a}$s and $\texttt{b}$s reduces to $0$ simultaneously, i.e. when $j = 2k$. Since $\texttt{againLastB}$ will immediately read a blank, transition to
+$\texttt{delLastB}$ and move left, $M$ will accept $w$, which is exactly what
+we wanted. (P.S. I hope my argument that this actually second iteration actually creates an invariant which we can loop over. I will gladly take some direct feedback on this because I realized during the writing of this proof that I don't feel very comfortable with loop invariants, but now I am out of time :(( )
+\end{proof}
+
+
+\section*{Problem 3}
+\begin{proof}[(a)]
+To see which one dominates the other, we can look at the limit 
+\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{\log n}{ n^{1/10}}.
+\] Since both of these tend to infinity as $n$ gets large, we can use L'Hôpital's rule, having us look at the limit as $n$ goes to $\infty$ of the quotient of the derivatives, without writing everything out, this simplifies to 
+\[
+\lim_{n \to \infty} \frac{1}{10}n^{- 1 /10} = 0.
+\] And so we can conclude that $g$ dominates $f$ as  $n$ gets large enough, meaning that $f \in \mathcal{O}(g)$, and $g$ is not in $\mathcal{(f)}$.
+\end{proof}
+\begin{proof}[(b)]
+We use the same idea, looking at the quotient as $n$ gets large, we have that \[
+\lim_{n \to \infty} \frac{g(n)}{ f(n)} =  \lim_{n \to \infty} \frac{\log_{2}(2n^4}{\log_{2}(n^{2} + 1)} .
+\] We can simplify this to \[
+\lim_{n \to \infty} \frac{2\log_{2}(n^2)}{\log_{2}(n^2 + 1)}.
+\] This limit obviously goes to $2$, and so we have that they are in the same asymptotic class, or in other words, both $g \in \mathcal{O}(f)$ and $f \in  \mathcal{O}(g)$.
+\end{proof}
+\begin{proof}[(c)]
+Using the monotonicity of the logarithm, we have that for $n$ large enough 
+\[
+\log_{10} (10^{n}) = n < \log_{10}(11) n < \sum_{k=1}^{n} \log_{10} ( k) = \log_{10}(n!),
+\] because the terms smaller than $\log_{10}(11)$ are always a fixed amount. Therefore $g(n) \in  \mathcal{O}(f(n)) $. To see that the other inclusion doesn't hold, note that for any choice of constant $C>0$, the same argument can be made for $\log_{10}(C) + n$ by just adding more terms to get a larger quantity.
+\end{proof}
+\begin{proof}[(d)]
+ It is clear that \[
+ f(n) = \sum_{k=1}^{n} k \log k < \sum_{k=1}^{n} n \log n  =  n^2\log n =g(n),
+ \] so $f(n ) \in \mathcal{O}(g(n))$. I have not been able to show that $g \in \mathcal{O}(f)$ as well, but my guess is that it is. 
+\end{proof}
+
+\section*{Problem 4}
+Let $G = (V,E)$ be a finite undirected graph.
+\begin{proof}[Proof of (a)]
+ Assume $\left|V\right| \geq 2$, and without loss of generality, assume $G$ is
+connected, since the result extends trivially to the connected components of
+$G$ (if two components only have one vertex each, that means two vertices have
+degree zero).  The degree of a given vertex must be in $\{1,2,\ldots,n-1\}$,
+and by the pigeonhole principle this means that at least two vertices must
+share the same degree and we are done.
+\end{proof}
+
+\begin{proof}[Proof of (b)]
+If a graph $G$ is connected, then for any two vertices $v$ and $w$, there is a path from $v$ to $w$. In this context, a verifier of whether or not a graph $G = (V,E)$ is connected, takes a certificate made up of a subset of $E$ that defines a connected subgraph of $G$ which includes every vertex already in $G$. Since we assume that this is a connected subgraph of $G$, we just need to check that the vertex sets match. This takes polynomial time because we are just comparing two lists.
+\end{proof}
+
+\begin{proof}[Proof of (c)]
+To actually check whether or not $G$ is connected, we need an algorithm that gives all possible paths starting from one base-vertex $v$, and then check whether or not the set of reached vertices is the same as the set $V$.
+This is polynomial since checking all possible paths from a vertex and saving them in memory is the worst-case scenario of well known linear algorithms like DFS or BFS, and checking that two sets are the same is also polynomial.
+
+\begin{algorithm}
+\caption{\textsc{CheckVertices}$(G, v_{0})$}
+\label{alg:reachability}
+\begin{algorithmic}[1]
+\State $\textit{Reached} \gets \textsc{DFS}(G,v_0)$
+
+\If{$\textit{Reached} = V$}
+    \State \Return $\textsc{True}$
+\Else
+    \State \Return $\textsc{False}$
+\EndIf
+
+\end{algorithmic}
+\end{algorithm}
+\end{proof}
+
+\section*{Problem 5}
+\begin{proof}[Solution of (a) and (b)]
+ Before the inner loop we have $s$ and $m$ initialized to $0$, and so for any $k>0$,
+the loop increments $m$ by 1, and then $s$ by $m$. This is equivalent to treating $s$ as an arithmetic sum \[
+s = \sum_{i=1}^{\ell} i
+\] where $\ell$ is the smallest positive integer so that $s \geq k$, which also corresponds to the number of times the inner loop runs, meaning $i= 1$ corresponds to the first iteration and $i = \ell$ to the last. 
+Using the formula for arithmetic sums, we have that \[
+s = \frac{\ell(\ell + 1)}{2},
+\] and so the number of times the inner loop runs is decided by a solution to 
+\[
+\ell(\ell +1) - 2k = 0.
+\] This has solutions $\ell \geq \frac{1}{2}(1 \pm \sqrt{1 + 8k})$, and since we require $\ell$ to be the smallest positive integer so that the above equality turns into an inequality, we need $\ell$ to be 
+$$
+\left\lceil \frac{1 + \sqrt{1 + 8k} }{2} \right\rceil,
+$$ and so we have determined the amount of times the inner loop runs as a function of $k$. 
+The outer loop runs a total of $n$ times, because we only increment $k$ by $1$ after each iteration and we initialize at $n$. 
+\end{proof}
+
+\begin{proof}[Proof of (c)]
+ Let $F(n)$ be the total runtime of our algorithm. Assuming that every comparison, initialization and increment takes $\Theta(1)$, we have that at iteration $m$ of the outer loop, there are 4 operations, plus the number of operations the inner loop carries out, which is easily calculated to be $$3 \left\lceil \frac{1 + \sqrt{1 + 8k} }{2} \right\rceil.
+$$
+Since this is being run $n$ times, plus once operation at the very beginning we can ignore, we get the formula 
+   \[ 
+ F(n) = 4n + 3 \sum_{k=1}^{n} \left\lceil \frac{1 + \sqrt{1 + 8k} }{2} \right\rceil.
+ \] 
+Now we want to estimate the sum above in an asymptotic sense. Let 
+ \[
+f(n) = \sum_{k=1}^{n} \left\lceil \frac{1 + \sqrt{1  + 8k }  }{2} \right\rceil.
+\]
+We can exploit the fact that for any real number $r>0$, 
+$r \leq  \left\lceil r \right\rceil \leq  r+1$, so applying this inequality to each summand of $f(n)$ gives us the inequality \[
+\sum_{k=1}^{n} \frac{1+ \sqrt{1 + 8k} }{2} \leq  f(n) \leq \sum_{k=1}^{n} \frac{3+\sqrt{1 + 8k} }{2}.
+\] This inequality can be trivially extended to $F(n)$, and so we can safely ignore the ceiling symbol, and just estimate the sums that bound $f(n)$ from above and below respectively. 
+We have that the sum bounded above by $f(n)$ is further bounded below by the integral 
+\[
+I_{-}(n) = \int_{1}^{n}  \frac{1+ \sqrt{1 + 8x} }{2} \, dx. 
+\] The integrand has an explicit antiderivative $x /2 + 1 /24 (1+ 8x)^{3 / 2}$, so we can calculate the integral exactly to be the value \[
+I_{-}(n) = \frac{n}{2} + \frac{(1 + 8n)^{3 /2}}{24} - \frac{13}{8} \in \Theta(n^{3 /2}).
+\] 
+Similarly, for the sum bounded below by $f(n)$, we get the integral above \[
+I_{+}(n) = \int_{1}^{n+1}  \frac{3+ \sqrt{1 + 8x} }{2} \, dx,
+\] which has the same asymptotic behavior, meaning we have \[
+I_{-}(n) \leq  f(n) \leq I_{+}(n),
+\] implying $f(n) \in \Theta(n^{3 /2})$, since this dominates the linear term in our runtime function $F(n)$, we can safely conclude that $F(n) \in  \Theta(n^{3 /2})$, meaning that we are done.
+\end{proof}
+
+\end{document}

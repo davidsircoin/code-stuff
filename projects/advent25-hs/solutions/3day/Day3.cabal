@@ -1,0 +1,10 @@
+cabal-version:      3.0
+name:               Day3
+version:            0.1.0.0
+
+executable Day2
+  main-is:          Main.hs
+  build-depends:    base >= 4.7 && < 5
+                  , text 
+  default-language: Haskell2010
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N

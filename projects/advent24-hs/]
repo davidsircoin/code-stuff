@@ -1,0 +1,37 @@
+module Day3 where
+
+import Parsing as  P
+import Data.Maybe
+day3 :: IO ()
+day3 = do
+    myfile <- readFile "./inputs/input3.txt"
+    print myfile
+
+parMulstring =  P.string "mul"
+
+
+par3Dig = P.count 3 digit <|> P.count 2 digit <|> P.count 1 digit
+
+
+scan :: String -> Maybe String
+scan xs = map (filter isNothing) (fst . head parsedxs)
+            where parsedxs = parse (many  (fmap (\x -> Just x) parseMulOp <|> fmap (\x -> Nothing) ignore)) xs
+
+
+parseMulOp = do mul <- parMulstring 
+                _ <- char '('
+                dig1 <- par3Dig
+                _ <- char ','
+                dig2 <- par3Dig
+                _ <- char ')'
+                return $  "mul(" ++ dig1 ++ "," ++  dig2 ++ ")"
+
+--parseMulOp' = do mulop <- fmap (char '(' . par3Dig . char ',' . 
+
+
+
+-- parseMulOp' = sequence $ 
+
+-- Idea: Create a parser that catches "mul(", one that catches a possibly 3 digit number followed by ',',
+-- and then another 3 digit one followed by a '('. Put these together with the right connections, (when to 
+-- use what essentially), and then put that all into a single parser, that we can use on myFile.

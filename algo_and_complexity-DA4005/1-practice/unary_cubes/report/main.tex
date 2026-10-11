@@ -1,0 +1,45 @@
+\documentclass[11pt,a4paper]{article}
+\input{~/Documents/latex-config/math-preamble}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\newcommand{\word}[1]{\text{\textbf{\texttt{#1}}}}
+
+\title{Report for DA4005 -- Programming Exercise 1}
+\author{David Sermoneta}
+\date{\today}
+
+\begin{document}
+\maketitle 
+We have implemented a Turing machine that only accepts inputs of the form
+$\texttt{a}^{n}$, where $n$ is a perfect cube. We make use of $6$ different
+symbols, and $5$ other tapes other than the input tape. Furthermore, we have
+the following assumption on the tape: it can only consist of a unary word of
+the form $\texttt{a}^{n}$, with $\texttt{a}$ being represented by the symbol
+$\texttt{ONE}$. The other symbols are used for varying purposes.
+$\texttt{BLANK}$ is built-in and read-only, and is used to denote the empty part of the tape. 
+ $\texttt{BEGIN}$ is used to denote the start of a tape, and is also used in some instances to ``clear''
+a given tape by adding a $\texttt{BEGIN}$ symbol at the first instance of a
+$\texttt{BLANK}$.  One of our tapes, $\texttt{ineqReg}$ is the only user of the
+other three symbols. Their use is that if $\texttt{ineqReg}$ reads one of these
+three symbols, it can be thought of as an assertion that we have not found a
+match yet ($\texttt{LESS}$), we have found a match ($\texttt{EQUAL}$), or that
+there is no match ($\texttt{GREATER}$). How this works more precisely will be
+explained down the line.
+
+If we want to iterate over a tape, while at the same time manipulating it, it is sensible to use a dummy tape, which is exactly what we do. $\texttt{dummy}$ is repurposable, and often "reset" by adding a $\texttt{BEGIN}$ at the end of it, to then use $\texttt{turnIntoCopy(source, dummy)}$ to get a new copy of another source-tape into $\texttt{dummy}$. 
+
+The tape $\texttt{croot}$ is used as our incrementer, which we later cube, and
+store into the tape $\texttt{cubed}$, to then compare it with our input-tape
+$\texttt{input}$ using $\texttt{compare} \texttt{(cubed,input}$ $\texttt{,ineqReg)}$.
+The way I found to cube $\texttt{croot}$ was by using the $\texttt{dummy}$ which I used to iterate over $\texttt{croot}$, effectively adding all of $\texttt{croot}$ to $\texttt{squared}$ for every $\texttt{ONE}$ in $\texttt{croot}$. When that was done $\texttt{cube()}$ does same thing but on $\texttt{squared}$, i.e., adding all of $\texttt{squared}$ to $\texttt{cubed}$ for each $\texttt{ONE}$ in $\texttt{croot}$.
+
+This will write to $\texttt{ineqReg}$ $\texttt{LESS, EQUAL}$ or $\texttt{GREATER}$,
+depending on whether or not $\texttt{cubed}$ has less/equal/more $\texttt{a}'$s than 
+$\texttt{input}$. If less, then we increment $\texttt{croot}$ by one, and
+repeat the process. If $\texttt{ineqReg}$ reads $\texttt{EQUAL}$, then that
+means the  input tape is of the form  $\texttt{a}^{k^{3}}$, and so we accept
+it. If it instead reads $\texttt{GREATER}$, then it halts and rejects. By the
+monotonicity of the algorithm (incrementing $\texttt{croot}$ by one) this will
+always terminate, since if we get that $\texttt{cubed}$ is larger than $\texttt{input}$, then the input tape is rejected, while as long as it is less than $\texttt{input}$, it will keep incrementing $\texttt{croot}$. All the comparisons are made at the level of tapes, the only thing python is used for is for $\texttt{while}$-loops and if statements, which can be seen as ``boiler-plate'' tapes and states.
+\end{document}
